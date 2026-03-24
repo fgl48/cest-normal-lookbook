@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>c'est normal [fan edition] — California Dreaming</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #1C3B5A;
+      --white: #FFF7EE;
+      --grey: #A26B7A;
+      --light: #F9B3C6;
+      --accent: #FFB38A;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 48px;
+      background: var(--white);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-color: var(--light); }
+
+    .nav-brand {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    .nav-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    /* ── PLACEHOLDER IMAGES ── */
+    .placeholder-img {
+      width: 100%;
+      height: 100%;
+      min-height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 8px;
+      background: linear-gradient(135deg, #fce4ec 0%, #ffd0e8 40%, #f9b3c6 100%);
+      color: var(--grey);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .placeholder-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1' fill='%23A26B7A' opacity='0.15'/%3E%3C/svg%3E");
+    }
+
+    .placeholder-img .ph-icon {
+      width: 40px;
+      height: 40px;
+      opacity: 0.35;
+      position: relative;
+      z-index: 1;
+    }
+
+    .placeholder-img span {
+      position: relative;
+      z-index: 1;
+      opacity: 0.5;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+      padding-top: 80px;
+    }
+
+    .hero-image {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-image .placeholder-img {
+      aspect-ratio: 2/3;
+      height: auto;
+      min-height: 100%;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 80px 64px;
+    }
+
+    .overline {
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 40px;
+    }
+
+    .hero-title em { font-style: italic; }
+
+    .hero-text {
+      font-size: 1.08rem;
+      line-height: 1.85;
+      color: #555;
+      max-width: 380px;
+      margin-bottom: 48px;
+    }
+
+    .hero-text strong {
+      display: block;
+      margin-top: 20px;
+      color: var(--black);
+      font-weight: 500;
+      font-size: 1.02rem;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-hints {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .scroll-hint {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    .scroll-hint::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--grey);
+    }
+
+    /* ── FULL-WIDTH IMAGES ── */
+    .full-image {
+      width: 100%;
+      overflow: hidden;
+      margin: 4px 0;
+    }
+
+    .full-image .placeholder-img {
+      height: 70vh;
+      min-height: 400px;
+    }
+
+    /* ── IMAGE PAIR ── */
+    .image-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      margin: 4px 0;
+    }
+
+    .image-pair .placeholder-img {
+      aspect-ratio: 2/3;
+      height: auto;
+      min-height: unset;
+    }
+
+    /* Different hues for pairs */
+    .image-pair .placeholder-img:nth-child(2) {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    }
+
+    /* ── IMAGE WITH CAPTION ── */
+    .image-caption-block {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      align-items: end;
+      margin: 4px 0;
+    }
+
+    .image-caption-block.reverse {
+      grid-template-columns: 2fr 3fr;
+      direction: rtl;
+    }
+
+    .image-caption-block.reverse > * { direction: ltr; }
+
+    .caption-text {
+      padding: 64px;
+      align-self: center;
+    }
+
+    .caption-text .number {
+      font-family: var(--font-display);
+      font-size: 6rem;
+      font-weight: 300;
+      color: var(--light);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .caption-text h3 {
+      font-family: var(--font-display);
+      font-size: 2.16rem;
+      font-weight: 400;
+      font-style: italic;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .caption-text p {
+      font-size: 0.98rem;
+      color: #666;
+      line-height: 1.9;
+      max-width: 280px;
+    }
+
+    .caption-text .tag {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--grey);
+      border-bottom: 1px solid var(--light);
+      padding-bottom: 3px;
+    }
+
+    .image-caption-block .placeholder-img {
+      aspect-ratio: 2/3;
+      height: auto;
+      min-height: unset;
+    }
+
+    /* ── THREE COLUMN ── */
+    .three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 4px;
+      margin: 4px 0;
+    }
+
+    .three-col .placeholder-img {
+      aspect-ratio: 2/3;
+      height: auto;
+      min-height: unset;
+    }
+
+    .three-col .placeholder-img:nth-child(2) {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    }
+    .three-col .placeholder-img:nth-child(3) {
+      background: linear-gradient(135deg, #e0f7fa 0%, #b2dfdb 100%);
+      /* slight variance for the third */
+      background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+    }
+
+    /* ── EDITORIAL TEXT BLOCK ── */
+    .editorial-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 64px;
+      gap: 80px;
+    }
+
+    .editorial-block .big-quote {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 4vw, 4rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    .editorial-block .sub-text {
+      font-size: 1.02rem;
+      color: #666;
+      line-height: 1.9;
+    }
+
+    .editorial-block .sub-text p + p { margin-top: 16px; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--light);
+      margin: 0 48px;
+    }
+
+    /* ── COLLECTION LABEL ── */
+    .collection-strip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+      gap: 32px;
+    }
+
+    .collection-strip span {
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    .collection-strip .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--light);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      color: var(--white);
+      padding: 80px 64px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: end;
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-tagline {
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .footer-right { text-align: right; }
+
+    .footer-right p {
+      font-size: 0.7rem;
+      color: #666;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 2;
+    }
+
+    /* ── POPUP OVERLAY ── */
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(28, 59, 90, 0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      opacity: 1;
+      transition: opacity 0.6s ease;
+      perspective: 1200px;
+    }
+
+    .popup-overlay.hiding {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .popup-overlay.hidden { display: none; }
+
+    .popup-card {
+      background: var(--white);
+      width: min(480px, 90vw);
+      max-height: 90vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(0px);
+      transition: transform 0.6s ease;
+      position: relative;
+    }
+
+    .popup-overlay.hiding .popup-card { transform: translateY(30px); }
+
+    .popup-image {
+      width: 100%;
+      background: #FFF7EE;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .popup-image .placeholder-img {
+      width: 100%;
+      height: 280px;
+      min-height: unset;
+    }
+
+    .popup-body {
+      padding: 40px 44px 44px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .popup-overline {
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    .popup-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .popup-title em { font-style: italic; }
+
+    .popup-sub {
+      font-size: 0.78rem;
+      color: #777;
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    .popup-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      padding: 16px 32px;
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.25s ease, gap 0.25s ease, color 0.25s ease;
+      align-self: flex-start;
+    }
+
+    .popup-btn:hover {
+      background: var(--accent);
+      color: var(--black);
+      gap: 18px;
+    }
+
+    .popup-btn svg { transition: transform 0.25s ease; }
+    .popup-btn:hover svg { transform: translateX(4px); }
+
+    /* Card 2 – the letter */
+    .popup-card-2 {
+      background: var(--white);
+      width: min(672px, 92vw);
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotateY(90deg);
+      transform-origin: left center;
+      opacity: 0;
+      transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    .popup-card-2.entering { display: flex; }
+
+    .popup-card-2.visible {
+      transform: translate(-50%, -50%) rotateY(0deg);
+      opacity: 1;
+    }
+
+    .popup-image-landscape {
+      width: 100%;
+      aspect-ratio: 16/9;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .popup-image-landscape .placeholder-img {
+      width: 100%;
+      height: 100%;
+      min-height: unset;
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    }
+
+    .popup-body-letter {
+      padding: 32px 44px 40px;
+    }
+
+    .letter-text {
+      margin: 16px 0 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .letter-text p {
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: #444;
+    }
+
+    .letter-text p.ps {
+      font-size: 0.7rem;
+      color: #999;
+      font-style: italic;
+      border-top: 1px solid var(--light);
+      padding-top: 12px;
+      margin-top: 4px;
+    }
+
+    /* Page-turn exit for popup1 */
+    .popup-card.turning {
+      transform-origin: left center;
+      animation: pageTurnOut 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes pageTurnOut {
+      0%   { transform: rotateY(0deg); opacity: 1; }
+      100% { transform: rotateY(-90deg); opacity: 0; }
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--grey);
+      padding: 0;
+      transition: color 0.2s ease, gap 0.2s ease;
+    }
+
+    .back-btn:hover { color: var(--black); gap: 12px; }
+    .back-btn svg { transition: transform 0.2s ease; }
+    .back-btn:hover svg { transform: translateX(-3px); }
+
+    .hero-hints-divider {
+      width: 1px;
+      height: 14px;
+      background: var(--light);
+    }
+
+    /* ── FADE-IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 18px 24px; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-image .placeholder-img { height: 60vw; min-height: 60vw; }
+      .hero-content { padding: 48px 24px; }
+      .hero-title { font-size: 3rem; }
+      .image-pair { grid-template-columns: 1fr; }
+      .image-caption-block { grid-template-columns: 1fr; }
+      .image-caption-block.reverse { grid-template-columns: 1fr; direction: ltr; }
+      .caption-text { padding: 40px 24px; }
+      .three-col { grid-template-columns: 1fr; }
+      .editorial-block { grid-template-columns: 1fr; padding: 64px 24px; gap: 40px; }
+      footer { grid-template-columns: 1fr; padding: 48px 24px; }
+      .footer-right { text-align: left; }
+      .collection-strip { padding: 32px 24px; }
+      .divider { margin: 0 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav id="mainNav">
+    <a href="#" class="nav-brand">c'est normal</a>
+    <span class="nav-label">C'est normal Lookbook [Fan Edition] Summer 2026</span>
+  </nav>
+
+  <!-- ════════════════════════════════════
+       POPUP 1 — Welcome / Intro
+  ════════════════════════════════════ -->
+  <div class="popup-overlay" id="popupOverlay">
+
+    <!-- Card 1: Welcome -->
+    <div class="popup-card" id="popupCard1">
+      <div class="popup-image">
+        <img src="assets/popup-welcome.png" alt="Campaign Image" style="width:100%; height:auto; display:block;" />
+      </div>
+      <div class="popup-body">
+        <p class="popup-overline">C'est Normal [Fan Edition]</p>
+        <h2 class="popup-title">California<br/><em>Dreaming</em></h2>
+        <p class="popup-sub">Summer 2026 — a fan-made lookbook tribute for a t-shirt that should live #forever!</p>
+        <button class="popup-btn" id="openLetterBtn">
+          Read the letter
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M0 6h14M9 1l5 5-5 5"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 2: The Pitch Letter -->
+    <div class="popup-card-2" id="popupCard2">
+      <div class="popup-image-landscape">
+        <img src="assets/popup-letter.jpg" alt="Landscape Campaign" style="width:100%; height:100%; object-fit:cover; display:block;" />
+      </div>
+      <div class="popup-body-letter">
+        <p class="popup-overline">A note from a fan</p>
+        <h2 class="popup-title" style="font-size:1.5rem; margin-top:20px;">Hi Janni, Benni, Warner,</h2>
+        <div class="letter-text">
+          <p>I'm Flo — a c'est normal supporter and fan from day one.</p>
+          <p>I use your pieces literally from head to toe! 😉 And when I'm wearing them it gives me this distinct and confident feeling that makes me feel like I can do it all.</p>
+          <p>I'll get straight to the point to save your precious time:</p>
+          <p>Is there any chance that you bring back the "Forever Tee" cut/style you had at the beginnings of CN? I have it in sand, navy, grey, green, black… I would only wear those if I could 🙂 And given the name it could be available #forever!</p>
+          <p>To give my "vision" a bit more of an edge I created a c'est normal [fan edition] lookbook for you to dive into my idea.</p>
+          <p>I'd love to see this style coming back as a special drop! The cuts &amp; supply chain are for sure ready somewhere in a drawer in the CNHQ in STHLM 😉</p>
+          <p>Price them at "Athletique level", special drop or pre-summer sale — so it leaves some money to catching some waves with the kids this season when I get the whole collection 🙂</p>
+          <p>So maybe my thoughts spark some ideas in your team, as it would bring together some CN heritage with Benni's lifestyle and recent CN vibe 🚀 …and now that Janni was in LA — a perfect timing to brainstorm and create 😉</p>
+          <p>I would be happy to hear from you guys! Keep on creating awesome stuff!</p>
+          <p style="font-size:0.82rem; color: var(--black); font-weight:500; letter-spacing:0.04em;">Thank you for your time — Florian | a fan with a vision</p>
+          <p class="ps">P.S. Please have in mind that with this little "project" I have no intention of infringing any CN IP — it is just a fun project from a dedicated c'est normal fan / friend / ambassador.</p>
+        </div>
+        <button class="popup-btn" id="closePopupBtn">
+          Enter the lookbook
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M0 6h14M9 1l5 5-5 5"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+  <!-- /popup -->
+
+
+  <!-- ════════════════════════════════════
+       HERO
+  ════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-image">
+      <img src="assets/hero.png" alt="Hero — California Dreaming" style="width:100%; height:100%; object-fit:cover; display:block;" />
+    </div>
+    <div class="hero-content fade-in">
+      <p class="overline">c'est normal · Lookbook [Fan Edition] · Summer 2026</p>
+      <h1 class="hero-title">
+        California<br/>
+        <em>Dreaming</em>
+      </h1>
+      <p class="hero-text">
+        Sun-bleached mornings, morning runs, chill walks in the city, the kind of ease you only feel when the light is golden and nothing needs explaining. This is the California Dreaming Edition — the pieces you already love, worn the way they were always meant to be.<strong>Effortless. Always.</strong>
+      </p>
+      <div class="hero-hints">
+        <span class="scroll-hint">Scroll to explore</span>
+        <div class="hero-hints-divider"></div>
+        <button class="back-btn" id="backToStartBtn">
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M14 5H1M5 1L1 5l4 4"/>
+          </svg>
+          Back to start
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════
+       STRIP 01
+  ════════════════════════════════════ -->
+  <div class="collection-strip fade-in">
+    <span>The Collection</span>
+    <div class="dot"></div>
+    <span>Summer 2026</span>
+    <div class="dot"></div>
+    <span>California Dreaming</span>
+  </div>
+
+
+  <!-- ════════════════════════════════════
+       FULL-WIDTH IMAGE 01
+  ════════════════════════════════════ -->
+  <div class="full-image fade-in">
+    <img src="assets/fullwidth-01.png" alt="Full-width campaign — dawn, PCH" style="width:100%; height:70vh; object-fit:cover; display:block;" />
+  </div>
+
+
+  <!-- ════════════════════════════════════
+       EDITORIAL BLOCK 01
+  ════════════════════════════════════ -->
+  <div class="editorial-block fade-in">
+    <div class="big-quote">
+      "Clothes that ask<br/>nothing of you —<br/><em>and give everything."</em>
+    </div>
+    <div class="sub-text">
+      <p>At c'est normal, you believe confidence is the foundation of creativity. When I feel secure in myself, I'm empowered to define normal on my own terms regardless of any standards or expectations.</p>
+    </div>
+  </div>
+
+
+  <div class="divider"></div>
+
+
+  <!-- ════════════════════════════════════
+       IMAGE PAIR 01
+  ════════════════════════════════════ -->
+  <div class="image-pair fade-in">
+    <img src="assets/pair-01-left.png" alt="Look 01 — Linen overshirt" style="width:100%; aspect-ratio:2/3; object-fit:cover; display:block;" />
+    <img src="assets/pair-01-right.png" alt="Look 01 — Detail, cuff" style="width:100%; aspect-ratio:2/3; object-fit:cover; display:block;" />
+  </div>
+
+
+  <!-- ════════════════════════════════════
+       IMAGE + CAPTION 01
+  ════════════════════════════════════ -->
+  <div class="image-caption-block fade-in">
+    <img src="assets/caption-01.png" alt="Look 02 — Full length" style="width:100%; aspect-ratio:2/3; object-fit:cover; display:block;" />
+    <div class="caption-text">
+      <div class="number">01</div>
+      <h3>Made #forever[ywhere]</h3>
+      <p>To me, the #forever shirt feels like a second skin — flexible, comfortable, and ready for anything. I can wear it for work, traveling, exploring or a night out. It can do it all.</p>
+      <span class="tag">Work · Explore · Party on</span>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════
+       THREE COLUMN
+  ════════════════════════════════════ -->
+  <div class="three-col fade-in">
+    <img src="assets/grid-01.png" alt="Look 03" style="width:100%; aspect-ratio:2/3; object-fit:cover; display:block;" />
+    <img src="assets/grid-02.png" alt="Look 04" style="width:100%; aspect-ratio:2/3; object-fit:cover; display:block;" />
+    <img src="assets/grid-03.png" alt="Look 05" style="width:100%; aspect-ratio:2/3; object-fit:cover; display:block;" />
+  </div>
+
+
+  <!-- ════════════════════════════════════
+       IMAGE + CAPTION 02 (reversed)
+  ════════════════════════════════════ -->
+  <div class="image-caption-block reverse fade-in">
+    <img src="assets/caption-02.png" alt="Look 06 — Golden hour" style="width:100%; aspect-ratio:2/3; object-fit:cover; display:block;" />
+    <div class="caption-text">
+      <div class="number">02</div>
+      <h3>The ecstatic<br/><em>brand fan</em></h3>
+      <p>This is me, when you tell me that you will bring back this iconic piece of the CN collection. In colors that are vibrant, elegant or chill. Style is what you make of it yourself.</p>
+      <span class="tag">Over · the · moon</span>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════
+       LANDSCAPE PAIR
+  ════════════════════════════════════ -->
+  <div class="image-pair fade-in">
+    <img src="assets/landscape-01.png" alt="Look 07" style="width:100%; aspect-ratio:3/2; object-fit:cover; display:block;" />
+    <img src="assets/landscape-02.png" alt="Look 08" style="width:100%; aspect-ratio:3/2; object-fit:cover; display:block;" />
+  </div>
+
+
+  <div class="divider"></div>
+
+
+  <!-- ════════════════════════════════════
+       EDITORIAL BLOCK 02
+  ════════════════════════════════════ -->
+  <div class="editorial-block fade-in">
+    <div class="sub-text">
+      <p>This lookbook [fan edition] was conceived as a pitch to make the #forever tshirt live up to its name — a creative proposal born from genuine admiration of your brand.</p>
+    </div>
+    <div class="big-quote">
+      <em>"I believe it's the perfect time to revive this classic. Yours truly, Florian"</em>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════
+       FULL-WIDTH IMAGE 02
+  ════════════════════════════════════ -->
+  <div class="full-image fade-in">
+    <img src="assets/fullwidth-02.jpg" alt="Closing campaign — Mojave dusk" style="width:100%; height:75vh; object-fit:cover; display:block;" />
+  </div>
+
+
+  <!-- ════════════════════════════════════
+       COLLECTION STRIP
+  ════════════════════════════════════ -->
+  <div class="collection-strip fade-in">
+    <span>End of Lookbook</span>
+    <div class="dot"></div>
+    <span>Fan Edition</span>
+    <div class="dot"></div>
+    <span>Made with love</span>
+  </div>
+
+
+  <!-- ════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════ -->
+  <footer>
+    <div>
+      <div class="footer-brand">c'est normal</div>
+      <p class="footer-tagline">Lookbook [Fan Edition] · California Dreaming · Summer 2026</p>
+    </div>
+    <div class="footer-right">
+      <p>Unofficial fan project</p>
+      <p>Not affiliated with c'est normal</p>
+      <p>All rights to the brand belong<br/>to their respective owners</p>
+      <p style="margin-top:16px; color: #888;">Creative director · Flo · @fglentertainment</p>
+      <p style="color: #888;">Photography · Dani · @daniela.ginda</p>
+    </div>
+  </footer>
+
+
+  <script>
+    // ── NAV SCROLL ──
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ── POPUP LOGIC ──
+    const overlay    = document.getElementById('popupOverlay');
+    const card1      = document.getElementById('popupCard1');
+    const card2      = document.getElementById('popupCard2');
+    const openLetter = document.getElementById('openLetterBtn');
+    const closePopup = document.getElementById('closePopupBtn');
+
+    // Open letter: page-turn card1 → reveal card2
+    openLetter.addEventListener('click', () => {
+      card1.classList.add('turning');
+      card2.classList.add('entering');
+
+      setTimeout(() => {
+        card1.style.display = 'none';
+        card2.classList.add('visible');
+      }, 400);
+    });
+
+    // Close popup entirely
+    closePopup.addEventListener('click', () => {
+      overlay.classList.add('hiding');
+      setTimeout(() => overlay.classList.add('hidden'), 650);
+    });
+
+    // ── BACK TO START ──
+    document.getElementById('backToStartBtn').addEventListener('click', () => {
+      // Reset card states
+      card1.style.display = '';
+      card1.classList.remove('turning');
+      card2.classList.remove('entering', 'visible');
+      card2.style.display = '';
+      // Show overlay again
+      overlay.classList.remove('hiding', 'hidden');
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    const faders = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    faders.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
